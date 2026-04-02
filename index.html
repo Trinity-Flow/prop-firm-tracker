@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Prop Firm Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #090b10; color: #e2e8f0; font-size: 14px; }
+
+  /* ── AUTH ── */
+  #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .auth-box { background: #111318; border: 1px solid #1e2330; border-radius: 14px; padding: 36px 32px; width: 360px; }
+  .auth-logo { font-size: 18px; font-weight: 600; color: #e2e8f0; margin-bottom: 6px; }
+  .auth-sub { font-size: 13px; color: #475569; margin-bottom: 28px; }
+  .auth-tabs { display: flex; gap: 0; margin-bottom: 24px; border: 1px solid #1e2330; border-radius: 8px; overflow: hidden; }
+  .auth-tab { flex: 1; padding: 9px; text-align: center; font-size: 13px; font-weight: 500; cursor: pointer; color: #475569; background: transparent; border: none; transition: all .15s; }
+  .auth-tab.active { background: #1e2330; color: #e2e8f0; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 11px; color: #475569; font-weight: 500; margin-bottom: 5px; letter-spacing: .04em; text-transform: uppercase; }
+  .field input { width: 100%; background: #0c0e14; border: 1px solid #1e2330; color: #e2e8f0; padding: 10px 12px; border-radius: 8px; font-size: 13px; outline: none; transition: border .15s; }
+  .field input:focus { border-color: #3b82f6; }
+  .auth-btn { width: 100%; padding: 11px; background: #1d4ed8; border: none; border-radius: 8px; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; transition: background .15s; margin-top: 4px; }
+  .auth-btn:hover { background: #1e40af; }
+  .auth-msg { font-size: 12px; margin-top: 12px; text-align: center; min-height: 18px; }
+  .auth-msg.error { color: #f87171; }
+  .auth-msg.success { color: #4ade80; }
+
+  /* ── APP SHELL ── */
+  #app-screen { display: none; flex-direction: column; min-height: 100vh; }
+  .topbar { background: #111318; border-bottom: 1px solid #1e2330; display: flex; align-items: center; padding: 0 24px; height: 52px; gap: 2px; }
+  .app-name { font-size: 14px; font-weight: 600; color: #e2e8f0; margin-right: 24px; }
+  .tab { padding: 0 16px; height: 52px; display: flex; align-items: center; font-size: 13px; font-weight: 500; cursor: pointer; color: #475569; border-bottom: 2px solid transparent; transition: all .15s; }
+  .tab.active { color: #e2e8f0; border-bottom-color: #3b82f6; }
+  .tab:hover:not(.active) { color: #94a3b8; }
+  .spacer { flex: 1; }
+  .user-pill { font-size: 12px; color: #475569; margin-right: 12px; }
+  .signout-btn { background: #1e2330; border: 1px solid #2d3748; color: #94a3b8; padding: 6px 12px; border-radius: 7px; font-size: 12px; cursor: pointer; }
+  .signout-btn:hover { color: #e2e8f0; }
+
+  .main { padding: 24px; flex: 1; }
+
+  /* ── VIEWS ── */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── KPI CARDS ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi { background: #111318; border: 1px solid #1e2330; border-radius: 10px; padding: 16px; }
+  .kpi-label { font-size: 11px; color: #475569; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 8px; }
+  .kpi-value { font-size: 24px; font-weight: 600; line-height: 1; }
+  .kpi-sub { font-size: 11px; color: #475569; margin-top: 6px; }
+
+  /* ── CHARTS ── */
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .chart-card { background: #111318; border: 1px solid #1e2330; border-radius: 10px; padding: 16px; }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-title { font-size: 12px; font-weight: 500; color: #64748b; margin-bottom: 14px; letter-spacing: .04em; text-transform: uppercase; }
+
+  /* ── TABLES ── */
+  .table-card { background: #111318; border: 1px solid #1e2330; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 500; color: #475569; letter-spacing: .04em; text-transform: uppercase; border-bottom: 1px solid #1e2330; }
+  tbody td { padding: 11px 14px; border-bottom: 1px solid #0c0e14; color: #cbd5e1; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #161b27; }
+
+  /* ── PIPELINE ── */
+  .pipeline-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stage-col { background: #111318; border: 1px solid #1e2330; border-radius: 10px; padding: 14px; min-height: 200px; }
+  .stage-header { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 500; color: #64748b; margin-bottom: 12px; letter-spacing: .04em; text-transform: uppercase; }
+  .stage-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .stage-count { margin-left: auto; background: #1e2330; border-radius: 10px; padding: 1px 8px; font-size: 11px; }
+  .acct-card { background: #0c0e14; border: 1px solid #1e2330; border-radius: 8px; padding: 11px; margin-bottom: 8px; cursor: pointer; transition: border-color .15s; }
+  .acct-card:hover { border-color: #2d3748; }
+  .acct-firm { font-size: 11px; color: #475569; margin-bottom: 2px; }
+  .acct-id { font-size: 13px; font-weight: 500; color: #e2e8f0; margin-bottom: 5px; }
+  .acct-meta { font-size: 11px; color: #334155; }
+  .cons-bar-bg { background: #1e2330; border-radius: 3px; height: 4px; margin-top: 8px; }
+  .cons-bar { background: #3b82f6; border-radius: 3px; height: 4px; transition: width .3s; }
+  .cons-label { font-size: 10px; color: #334155; margin-top: 3px; }
+  .empty { text-align: center; padding: 24px 0; color: #334155; font-size: 12px; }
+
+  /* ── BADGES ── */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+  .badge-green { background: #14532d; color: #4ade80; }
+  .badge-red { background: #450a0a; color: #f87171; }
+  .badge-amber { background: #451a03; color: #fbbf24; }
+  .badge-blue { background: #1e3a5f; color: #60a5fa; }
+  .badge-gray { background: #1e2330; color: #64748b; }
+
+  /* ── COLORS ── */
+  .green { color: #22c55e; } .red { color: #ef4444; } .blue { color: #3b82f6; }
+  .amber { color: #f59e0b; } .indigo { color: #818cf8; } .muted { color: #475569; }
+
+  /* ── BUTTONS ── */
+  .btn { background: #1e2330; border: 1px solid #2d3748; color: #e2e8f0; padding: 7px 14px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; }
+  .btn:hover { background: #252d3d; }
+  .btn-primary { background: #1d4ed8; border-color: #2563eb; color: #fff; }
+  .btn-primary:hover { background: #1e40af; }
+  .btn-sm { padding: 5px 11px; font-size: 12px; }
+
+  /* ── SECTION HEADER ── */
+  .section-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .section-title { font-size: 11px; font-weight: 500; color: #475569; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* ── MODAL ── */
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 100; align-items: center; justify-content: center; }
+  .overlay.open { display: flex; }
+  .modal { background: #111318; border: 1px solid #1e2330; border-radius: 14px; padding: 28px; width: 460px; max-width: calc(100vw - 32px); max-height: calc(100vh - 32px); overflow-y: auto; }
+  .modal-title { font-size: 16px; font-weight: 600; color: #e2e8f0; margin-bottom: 20px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label { font-size: 11px; color: #475569; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
+  .form-group input, .form-group select { background: #0c0e14; border: 1px solid #1e2330; color: #e2e8f0; padding: 9px 11px; border-radius: 7px; font-size: 13px; outline: none; width: 100%; transition: border .15s; }
+  .form-group input:focus, .form-group select:focus { border-color: #3b82f6; }
+  .form-group select option { background: #0c0e14; }
+  .modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid #1e2330; }
+
+  /* ── LOADING ── */
+  .loader { display: flex; align-items: center; justify-content: center; height: 120px; color: #334155; font-size: 13px; }
+
+  @media (max-width: 768px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .chart-row { grid-template-columns: 1fr; }
+    .pipeline-grid { grid-template-columns: repeat(2, 1fr); }
+    .topbar { padding: 0 14px; }
+    .main { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ AUTH SCREEN ══ -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">Prop Firm Tracker</div>
+    <div class="auth-sub">Track challenges, payouts &amp; ROI across all your firms</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="setAuthTab('signin')">Sign in</button>
+      <button class="auth-tab" onclick="setAuthTab('signup')">Sign up</button>
+    </div>
+    <div class="field"><label>Email</label><input type="email" id="auth-email" placeholder="you@example.com" /></div>
+    <div class="field"><label>Password</label><input type="password" id="auth-password" placeholder="••••••••" /></div>
+    <button class="auth-btn" onclick="handleAuth()">Sign in</button>
+    <div class="auth-msg" id="auth-msg"></div>
+  </div>
+</div>
+
+<!-- ══ APP SCREEN ══ -->
+<div id="app-screen">
+  <div class="topbar">
+    <div class="app-name">Prop Firm Tracker</div>
+    <div class="tab active" onclick="switchTab('dashboard')">Dashboard</div>
+    <div class="tab" onclick="switchTab('pipeline')">Pipeline</div>
+    <div class="tab" onclick="switchTab('payouts')">Payouts</div>
+    <div class="tab" onclick="switchTab('firms')">Firms</div>
+    <div class="spacer"></div>
+    <div class="user-pill" id="user-email"></div>
+    <button class="signout-btn" onclick="signOut()">Sign out</button>
+  </div>
+
+  <div class="main">
+
+    <!-- Dashboard -->
+    <div id="view-dashboard" class="view active">
+      <div class="kpi-grid" id="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Net ROI</div><div class="kpi-value muted">—</div></div>
+        <div class="kpi"><div class="kpi-label">Total payouts</div><div class="kpi-value muted">—</div></div>
+        <div class="kpi"><div class="kpi-label">Pass rate</div><div class="kpi-value muted">—</div></div>
+        <div class="kpi"><div class="kpi-label">Avg consistency</div><div class="kpi-value muted">—</div></div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-card">
+          <div class="chart-title">Net profit — last 6 months</div>
+          <div style="position:relative;height:190px"><canvas id="chart-profit"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Payout vs fees by firm</div>
+          <div style="position:relative;height:190px"><canvas id="chart-firms"></canvas></div>
+        </div>
+      </div>
+      <div class="chart-card full">
+        <div class="chart-title">Consistency score by month</div>
+        <div style="position:relative;height:130px"><canvas id="chart-cons"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Pipeline -->
+    <div id="view-pipeline" class="view">
+      <div class="section-hdr">
+        <div class="section-title">Account pipeline</div>
+        <button class="btn btn-primary btn-sm" onclick="openModal('account')">+ Add account</button>
+      </div>
+      <div class="pipeline-grid" id="pipeline-grid"></div>
+    </div>
+
+    <!-- Payouts -->
+    <div id="view-payouts" class="view">
+      <div class="section-hdr">
+        <div class="section-title">Payout history</div>
+        <button class="btn btn-primary btn-sm" onclick="openModal('payout')">+ Log payout</button>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>Date</th><th>Firm</th><th>Account</th><th>Amount</th><th>Type</th><th>Note</th><th></th></tr></thead>
+          <tbody id="payout-tbody"><tr><td colspan="7" class="empty">No payouts yet</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Firms -->
+    <div id="view-firms" class="view">
+      <div class="section-hdr">
+        <div class="section-title">Firm comparison</div>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>Firm</th><th>Accounts</th><th>Pass rate</th><th>Total fees</th><th>Total payouts</th><th>Net ROI</th><th>Avg consistency</th></tr></thead>
+          <tbody id="firm-tbody"><tr><td colspan="7" class="empty">No data yet</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ MODALS ══ -->
+<div class="overlay" id="modal-account" onclick="if(event.target===this)closeModal('account')">
+  <div class="modal">
+    <div class="modal-title">Add account</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Firm name</label><input id="af-firm" placeholder="e.g. Apex Trader" /></div>
+      <div class="form-group"><label>Account ID</label><input id="af-id" placeholder="e.g. ACC-001" /></div>
+      <div class="form-group"><label>Stage</label>
+        <select id="af-stage"><option>Challenge</option><option>Funded</option><option>Blown</option><option>Withdrawn</option></select>
+      </div>
+      <div class="form-group"><label>Account size ($)</label><input type="number" id="af-size" placeholder="50000" /></div>
+      <div class="form-group"><label>Challenge fee ($)</label><input type="number" id="af-fee" placeholder="150" /></div>
+      <div class="form-group"><label>Max drawdown (%)</label><input type="number" id="af-dd" placeholder="6" /></div>
+      <div class="form-group"><label>Start date</label><input type="date" id="af-date" /></div>
+      <div class="form-group"><label>Consistency score (%)</label><input type="number" id="af-cons" placeholder="85" /></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('account')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveAccount()">Save account</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="modal-payout" onclick="if(event.target===this)closeModal('payout')">
+  <div class="modal">
+    <div class="modal-title">Log payout</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Firm</label><input id="pp-firm" placeholder="e.g. Apex Trader" /></div>
+      <div class="form-group"><label>Account ID</label><input id="pp-acct" placeholder="e.g. ACC-001" /></div>
+      <div class="form-group"><label>Amount ($)</label><input type="number" id="pp-amount" placeholder="1200" /></div>
+      <div class="form-group"><label>Date</label><input type="date" id="pp-date" /></div>
+      <div class="form-group"><label>Type</label>
+        <select id="pp-type"><option>Payout</option><option>Refund</option><option>Bonus</option></select>
+      </div>
+      <div class="form-group"><label>Note (optional)</label><input id="pp-note" placeholder="" /></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('payout')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePayout()">Log payout</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  CONFIGURATION — paste your Supabase keys here
+// ══════════════════════════════════════════════════════
+const SUPABASE_URL = 'YOUR_SUPABASE_URL'
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+// ── STATE ────────────────────────────────────────────
+let accounts = []
+let payouts = []
+let currentUser = null
+let chartProfit = null, chartFirms = null, chartCons = null
+
+// ── AUTH ─────────────────────────────────────────────
+let authMode = 'signin'
+function setAuthTab(mode) {
+  authMode = mode
+  document.querySelectorAll('.auth-tab').forEach((t, i) => t.classList.toggle('active', (i === 0) === (mode === 'signin')))
+  document.querySelector('.auth-btn').textContent = mode === 'signin' ? 'Sign in' : 'Create account'
+  setMsg('', '')
+}
+
+function setMsg(text, type) {
+  const el = document.getElementById('auth-msg')
+  el.textContent = text
+  el.className = 'auth-msg' + (type ? ' ' + type : '')
+}
+
+async function handleAuth() {
+  const email = document.getElementById('auth-email').value.trim()
+  const password = document.getElementById('auth-password').value
+  if (!email || !password) return setMsg('Please enter email and password.', 'error')
+  setMsg('Please wait…', '')
+  const fn = authMode === 'signin'
+    ? sb.auth.signInWithPassword({ email, password })
+    : sb.auth.signUp({ email, password })
+  const { data, error } = await fn
+  if (error) return setMsg(error.message, 'error')
+  if (authMode === 'signup' && !data.session) return setMsg('Check your email to confirm your account.', 'success')
+  if (data.session) bootApp(data.session.user)
+}
+
+async function signOut() {
+  await sb.auth.signOut()
+  currentUser = null
+  accounts = []; payouts = []
+  document.getElementById('app-screen').style.display = 'none'
+  document.getElementById('auth-screen').style.display = 'flex'
+}
+
+function bootApp(user) {
+  currentUser = user
+  document.getElementById('auth-screen').style.display = 'none'
+  document.getElementById('app-screen').style.display = 'flex'
+  document.getElementById('user-email').textContent = user.email
+  document.getElementById('af-date').value = today()
+  document.getElementById('pp-date').value = today()
+  loadData()
+}
+
+// ── DATA ─────────────────────────────────────────────
+async function loadData() {
+  const [{ data: a }, { data: p }] = await Promise.all([
+    sb.from('accounts').select('*').order('created_at', { ascending: false }),
+    sb.from('payouts').select('*').order('date', { ascending: false })
+  ])
+  accounts = a || []
+  payouts = p || []
+  renderAll()
+}
+
+async function saveAccount() {
+  const row = {
+    user_id: currentUser.id,
+    firm: val('af-firm') || 'Unknown',
+    account_id: val('af-id') || 'ACC-' + Date.now(),
+    stage: val('af-stage'),
+    size: num('af-size'),
+    fee: num('af-fee'),
+    max_dd: num('af-dd') || 6,
+    start_date: val('af-date'),
+    consistency: num('af-cons')
+  }
+  const { error } = await sb.from('accounts').insert(row)
+  if (error) return alert(error.message)
+  closeModal('account')
+  clearFields(['af-firm','af-id','af-size','af-fee','af-dd','af-cons'])
+  await loadData()
+}
+
+async function savePayout() {
+  const row = {
+    user_id: currentUser.id,
+    firm: val('pp-firm') || 'Unknown',
+    account_ref: val('pp-acct'),
+    amount: num('pp-amount'),
+    date: val('pp-date'),
+    type: val('pp-type'),
+    note: val('pp-note')
+  }
+  const { error } = await sb.from('payouts').insert(row)
+  if (error) return alert(error.message)
+  closeModal('payout')
+  clearFields(['pp-firm','pp-acct','pp-amount','pp-note'])
+  await loadData()
+}
+
+async function deleteAccount(id) {
+  if (!confirm('Delete this account?')) return
+  await sb.from('accounts').delete().eq('id', id)
+  await loadData()
+}
+
+async function deletePayout(id) {
+  if (!confirm('Delete this payout?')) return
+  await sb.from('payouts').delete().eq('id', id)
+  await loadData()
+}
+
+// ── RENDER ────────────────────────────────────────────
+function renderAll() {
+  renderDashboard()
+  renderPipeline()
+  renderPayouts()
+  renderFirms()
+}
+
+function fmt$(n) {
+  const abs = Math.abs(n)
+  return (n < 0 ? '-' : '') + '$' + abs.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+}
+function pct(n) { return Math.round(n) + '%' }
+function today() { return new Date().toISOString().slice(0, 10) }
+function val(id) { return document.getElementById(id).value.trim() }
+function num(id) { return parseFloat(document.getElementById(id).value) || 0 }
+function clearFields(ids) { ids.forEach(id => document.getElementById(id).value = '') }
+
+const STAGE_COLOR = { Challenge: '#f59e0b', Funded: '#22c55e', Blown: '#ef4444', Withdrawn: '#64748b' }
+const STAGE_BADGE = { Challenge: 'badge-amber', Funded: 'badge-green', Blown: 'badge-red', Withdrawn: 'badge-gray' }
+
+function renderDashboard() {
+  const totalPay = payouts.reduce((s, p) => s + p.amount, 0)
+  const totalFees = accounts.reduce((s, a) => s + a.fee, 0)
+  const net = totalPay - totalFees
+  const passed = accounts.filter(a => a.stage === 'Funded' || a.stage === 'Withdrawn').length
+  const blown = accounts.filter(a => a.stage === 'Blown').length
+  const attempted = passed + blown
+  const passRate = attempted ? Math.round(passed / attempted * 100) : 0
+  const avgCons = accounts.length ? Math.round(accounts.reduce((s, a) => s + (a.consistency || 0), 0) / accounts.length) : 0
+
+  document.getElementById('kpi-grid').innerHTML = `
+    <div class="kpi">
+      <div class="kpi-label">Net ROI</div>
+      <div class="kpi-value ${net >= 0 ? 'green' : 'red'}">${fmt$(net)}</div>
+      <div class="kpi-sub">${fmt$(totalPay)} payouts · ${fmt$(totalFees)} fees</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Total payouts</div>
+      <div class="kpi-value green">${fmt$(totalPay)}</div>
+      <div class="kpi-sub">${payouts.length} payout${payouts.length !== 1 ? 's' : ''} logged</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Pass rate</div>
+      <div class="kpi-value blue">${pct(passRate)}</div>
+      <div class="kpi-sub">${passed} passed · ${blown} blown</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Avg consistency</div>
+      <div class="kpi-value indigo">${pct(avgCons)}</div>
+      <div class="kpi-sub">${accounts.filter(a => a.stage === 'Funded').length} funded active</div>
+    </div>`
+
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  const now = new Date()
+  const labels = [], netData = []
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    labels.push(months[d.getMonth()] + " '" + String(d.getFullYear()).slice(2))
+    const mo = payouts.filter(p => { const pd = new Date(p.date); return pd.getMonth() === d.getMonth() && pd.getFullYear() === d.getFullYear() }).reduce((s, p) => s + p.amount, 0)
+    const fees = accounts.filter(a => { const ad = new Date(a.start_date); return ad.getMonth() === d.getMonth() && ad.getFullYear() === d.getFullYear() }).reduce((s, a) => s + a.fee, 0)
+    netData.push(mo - fees)
+  }
+
+  if (chartProfit) chartProfit.destroy()
+  chartProfit = new Chart(document.getElementById('chart-profit').getContext('2d'), {
+    type: 'line',
+    data: { labels, datasets: [{ data: netData, borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.07)', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#22c55e', fill: true, tension: .35 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: v => fmt$(v.raw) } } }, scales: { x: { ticks: { color: '#475569', font: { size: 11 } }, grid: { color: '#1a1f2e' } }, y: { ticks: { color: '#475569', font: { size: 11 }, callback: v => fmt$(v) }, grid: { color: '#1a1f2e' } } } }
+  })
+
+  const firmNames = [...new Set(accounts.map(a => a.firm).concat(payouts.map(p => p.firm)))].filter(Boolean)
+  if (chartFirms) chartFirms.destroy()
+  chartFirms = new Chart(document.getElementById('chart-firms').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: firmNames.length ? firmNames : ['No firms'],
+      datasets: [
+        { label: 'Payouts', data: firmNames.map(f => payouts.filter(p => p.firm === f).reduce((s, p) => s + p.amount, 0)), backgroundColor: '#22c55e', borderRadius: 4 },
+        { label: 'Fees', data: firmNames.map(f => accounts.filter(a => a.firm === f).reduce((s, a) => s + a.fee, 0)), backgroundColor: '#ef4444', borderRadius: 4 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: v => v.dataset.label + ': ' + fmt$(v.raw) } } }, scales: { x: { ticks: { color: '#475569', font: { size: 11 } }, grid: { display: false } }, y: { ticks: { color: '#475569', font: { size: 11 }, callback: v => fmt$(v) }, grid: { color: '#1a1f2e' } } } }
+  })
+
+  const consData = Array(6).fill(avgCons || 0)
+  if (chartCons) chartCons.destroy()
+  chartCons = new Chart(document.getElementById('chart-cons').getContext('2d'), {
+    type: 'bar',
+    data: { labels, datasets: [{ data: consData, backgroundColor: '#818cf8', borderRadius: 4 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: v => v.raw + '%' } } }, scales: { x: { ticks: { color: '#475569', font: { size: 11 } }, grid: { display: false } }, y: { min: 0, max: 100, ticks: { color: '#475569', font: { size: 11 }, callback: v => v + '%' }, grid: { color: '#1a1f2e' } } } }
+  })
+}
+
+function renderPipeline() {
+  const stages = ['Challenge', 'Funded', 'Blown', 'Withdrawn']
+  const labels = { Challenge: 'In challenge', Funded: 'Funded', Blown: 'Blown', Withdrawn: 'Withdrawn' }
+  document.getElementById('pipeline-grid').innerHTML = stages.map(stage => {
+    const items = accounts.filter(a => a.stage === stage)
+    return `<div class="stage-col">
+      <div class="stage-header">
+        <div class="stage-dot" style="background:${STAGE_COLOR[stage]}"></div>
+        ${labels[stage]}
+        <div class="stage-count">${items.length}</div>
+      </div>
+      ${items.length === 0 ? '<div class="empty">Empty</div>' : items.map(a => `
+        <div class="acct-card" onclick="deleteAccount('${a.id}')">
+          <div class="acct-firm">${a.firm}</div>
+          <div class="acct-id">${a.account_id}</div>
+          <div class="acct-meta">${a.size ? '$' + Number(a.size).toLocaleString() : ''} ${a.fee ? '· $' + a.fee + ' fee' : ''}</div>
+          ${a.consistency ? `<div class="cons-bar-bg"><div class="cons-bar" style="width:${Math.min(a.consistency,100)}%"></div></div><div class="cons-label">${Math.round(a.consistency)}% consistency</div>` : ''}
+        </div>`).join('')}
+    </div>`
+  }).join('')
+}
+
+function renderPayouts() {
+  const sorted = [...payouts].sort((a, b) => b.date.localeCompare(a.date))
+  document.getElementById('payout-tbody').innerHTML = sorted.length === 0
+    ? '<tr><td colspan="7" class="empty">No payouts logged yet</td></tr>'
+    : sorted.map(p => `<tr>
+        <td class="muted">${p.date}</td>
+        <td>${p.firm}</td>
+        <td class="muted">${p.account_ref || '—'}</td>
+        <td class="green" style="font-weight:500">${fmt$(p.amount)}</td>
+        <td><span class="badge badge-blue">${p.type}</span></td>
+        <td class="muted">${p.note || '—'}</td>
+        <td><button class="btn btn-sm" style="color:#475569;padding:3px 8px" onclick="deletePayout('${p.id}')">✕</button></td>
+      </tr>`).join('')
+}
+
+function renderFirms() {
+  const firmNames = [...new Set(accounts.map(a => a.firm).concat(payouts.map(p => p.firm)))].filter(Boolean)
+  document.getElementById('firm-tbody').innerHTML = firmNames.length === 0
+    ? '<tr><td colspan="7" class="empty">No firms added yet</td></tr>'
+    : firmNames.map(firm => {
+        const fa = accounts.filter(a => a.firm === firm)
+        const fp = payouts.filter(p => p.firm === firm)
+        const fees = fa.reduce((s, a) => s + a.fee, 0)
+        const totalP = fp.reduce((s, p) => s + p.amount, 0)
+        const net = totalP - fees
+        const passed = fa.filter(a => a.stage === 'Funded' || a.stage === 'Withdrawn').length
+        const blown = fa.filter(a => a.stage === 'Blown').length
+        const att = passed + blown
+        const pr = att ? Math.round(passed / att * 100) : null
+        const ac = fa.length ? Math.round(fa.reduce((s, a) => s + (a.consistency || 0), 0) / fa.length) : null
+        return `<tr>
+          <td style="font-weight:500;color:#e2e8f0">${firm}</td>
+          <td>${fa.length}</td>
+          <td class="blue">${pr !== null ? pct(pr) : '—'}</td>
+          <td class="red">${fmt$(fees)}</td>
+          <td class="green">${fmt$(totalP)}</td>
+          <td class="${net >= 0 ? 'green' : 'red'}" style="font-weight:500">${fmt$(net)}</td>
+          <td class="indigo">${ac !== null ? pct(ac) : '—'}</td>
+        </tr>`
+      }).join('')
+}
+
+// ── NAV ───────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', ['dashboard','pipeline','payouts','firms'][i] === name)
+  })
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'))
+  document.getElementById('view-' + name).classList.add('active')
+  if (name === 'dashboard') renderDashboard()
+}
+
+function openModal(name) { document.getElementById('modal-' + name).classList.add('open') }
+function closeModal(name) { document.getElementById('modal-' + name).classList.remove('open') }
+
+// ── INIT ──────────────────────────────────────────────
+sb.auth.getSession().then(({ data: { session } }) => {
+  if (session) bootApp(session.user)
+})
+
+sb.auth.onAuthStateChange((_event, session) => {
+  if (session && !currentUser) bootApp(session.user)
+})
+</script>
+</body>
+</html>
