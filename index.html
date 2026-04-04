@@ -10,7 +10,6 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #090b10; color: #e2e8f0; font-size: 14px; }
 
-  /* ── AUTH ── */
   #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
   .auth-box { background: #111318; border: 1px solid #1e2330; border-radius: 14px; padding: 36px 32px; width: 360px; }
   .auth-logo { font-size: 18px; font-weight: 600; color: #e2e8f0; margin-bottom: 6px; }
@@ -28,38 +27,30 @@
   .auth-msg.error { color: #f87171; }
   .auth-msg.success { color: #4ade80; }
 
-  /* ── APP SHELL ── */
   #app-screen { display: none; flex-direction: column; min-height: 100vh; }
   .topbar { background: #111318; border-bottom: 1px solid #1e2330; display: flex; align-items: center; padding: 0 24px; height: 52px; gap: 2px; }
   .app-name { font-size: 14px; font-weight: 600; color: #e2e8f0; margin-right: 24px; }
-  .tab { padding: 0 16px; height: 52px; display: flex; align-items: center; font-size: 13px; font-weight: 500; cursor: pointer; color: #475569; border-bottom: 2px solid transparent; transition: all .15s; }
+  .tab { padding: 0 14px; height: 52px; display: flex; align-items: center; font-size: 13px; font-weight: 500; cursor: pointer; color: #475569; border-bottom: 2px solid transparent; transition: all .15s; white-space: nowrap; }
   .tab.active { color: #e2e8f0; border-bottom-color: #3b82f6; }
   .tab:hover:not(.active) { color: #94a3b8; }
   .spacer { flex: 1; }
   .user-pill { font-size: 12px; color: #475569; margin-right: 12px; }
   .signout-btn { background: #1e2330; border: 1px solid #2d3748; color: #94a3b8; padding: 6px 12px; border-radius: 7px; font-size: 12px; cursor: pointer; }
   .signout-btn:hover { color: #e2e8f0; }
-
   .main { padding: 24px; flex: 1; }
-
-  /* ── VIEWS ── */
   .view { display: none; }
   .view.active { display: block; }
 
-  /* ── KPI CARDS ── */
   .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
   .kpi { background: #111318; border: 1px solid #1e2330; border-radius: 10px; padding: 16px; }
   .kpi-label { font-size: 11px; color: #475569; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 8px; }
   .kpi-value { font-size: 24px; font-weight: 600; line-height: 1; }
   .kpi-sub { font-size: 11px; color: #475569; margin-top: 6px; }
 
-  /* ── CHARTS ── */
   .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
   .chart-card { background: #111318; border: 1px solid #1e2330; border-radius: 10px; padding: 16px; }
-  .chart-card.full { grid-column: 1 / -1; }
   .chart-title { font-size: 12px; font-weight: 500; color: #64748b; margin-bottom: 14px; letter-spacing: .04em; text-transform: uppercase; }
 
-  /* ── TABLES ── */
   .table-card { background: #111318; border: 1px solid #1e2330; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   thead th { padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 500; color: #475569; letter-spacing: .04em; text-transform: uppercase; border-bottom: 1px solid #1e2330; }
@@ -67,66 +58,95 @@
   tbody tr:last-child td { border-bottom: none; }
   tbody tr:hover td { background: #161b27; }
 
-  /* ── PIPELINE ── */
   .pipeline-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
   .stage-col { background: #111318; border: 1px solid #1e2330; border-radius: 10px; padding: 14px; min-height: 200px; }
   .stage-header { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 500; color: #64748b; margin-bottom: 12px; letter-spacing: .04em; text-transform: uppercase; }
   .stage-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
   .stage-count { margin-left: auto; background: #1e2330; border-radius: 10px; padding: 1px 8px; font-size: 11px; }
-  .acct-card { background: #0c0e14; border: 1px solid #1e2330; border-radius: 8px; padding: 11px; margin-bottom: 8px; cursor: pointer; transition: border-color .15s; }
-  .acct-card:hover { border-color: #2d3748; }
+  .acct-card { background: #0c0e14; border: 1px solid #1e2330; border-radius: 8px; padding: 11px; margin-bottom: 8px; }
   .acct-firm { font-size: 11px; color: #475569; margin-bottom: 2px; }
   .acct-id { font-size: 13px; font-weight: 500; color: #e2e8f0; margin-bottom: 5px; }
   .acct-meta { font-size: 11px; color: #334155; }
   .cons-bar-bg { background: #1e2330; border-radius: 3px; height: 4px; margin-top: 8px; }
-  .cons-bar { background: #3b82f6; border-radius: 3px; height: 4px; transition: width .3s; }
+  .cons-bar { background: #3b82f6; border-radius: 3px; height: 4px; }
   .cons-label { font-size: 10px; color: #334155; margin-top: 3px; }
   .empty { text-align: center; padding: 24px 0; color: #334155; font-size: 12px; }
 
-  /* ── BADGES ── */
   .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
   .badge-green { background: #14532d; color: #4ade80; }
   .badge-red { background: #450a0a; color: #f87171; }
   .badge-amber { background: #451a03; color: #fbbf24; }
   .badge-blue { background: #1e3a5f; color: #60a5fa; }
   .badge-gray { background: #1e2330; color: #64748b; }
+  .badge-purple { background: #2e1a5f; color: #a78bfa; }
 
-  /* ── COLORS ── */
   .green { color: #22c55e; } .red { color: #ef4444; } .blue { color: #3b82f6; }
   .amber { color: #f59e0b; } .indigo { color: #818cf8; } .muted { color: #475569; }
 
-  /* ── BUTTONS ── */
   .btn { background: #1e2330; border: 1px solid #2d3748; color: #e2e8f0; padding: 7px 14px; border-radius: 7px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; }
   .btn:hover { background: #252d3d; }
   .btn-primary { background: #1d4ed8; border-color: #2563eb; color: #fff; }
   .btn-primary:hover { background: #1e40af; }
   .btn-sm { padding: 5px 11px; font-size: 12px; }
 
-  /* ── SECTION HEADER ── */
-  .section-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .section-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
   .section-title { font-size: 11px; font-weight: 500; color: #475569; letter-spacing: .06em; text-transform: uppercase; }
 
-  /* ── MODAL ── */
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 100; align-items: center; justify-content: center; }
   .overlay.open { display: flex; }
-  .modal { background: #111318; border: 1px solid #1e2330; border-radius: 14px; padding: 28px; width: 460px; max-width: calc(100vw - 32px); max-height: calc(100vh - 32px); overflow-y: auto; }
+  .modal { background: #111318; border: 1px solid #1e2330; border-radius: 14px; padding: 28px; width: 480px; max-width: calc(100vw - 32px); max-height: calc(100vh - 32px); overflow-y: auto; }
   .modal-title { font-size: 16px; font-weight: 600; color: #e2e8f0; margin-bottom: 20px; }
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
   .form-group { display: flex; flex-direction: column; gap: 5px; }
-  .form-group.full { grid-column: 1 / -1; }
   .form-group label { font-size: 11px; color: #475569; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
   .form-group input, .form-group select { background: #0c0e14; border: 1px solid #1e2330; color: #e2e8f0; padding: 9px 11px; border-radius: 7px; font-size: 13px; outline: none; width: 100%; transition: border .15s; }
   .form-group input:focus, .form-group select:focus { border-color: #3b82f6; }
   .form-group select option { background: #0c0e14; }
   .modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid #1e2330; }
 
-  /* ── LOADING ── */
-  .loader { display: flex; align-items: center; justify-content: center; height: 120px; color: #334155; font-size: 13px; }
+  /* IMPORT */
+  .import-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .firm-card { background: #0c0e14; border: 2px solid #1e2330; border-radius: 10px; padding: 14px; cursor: pointer; transition: border-color .15s; text-align: center; }
+  .firm-card:hover { border-color: #3b82f6; }
+  .firm-card.selected { border-color: #3b82f6; background: #0f1829; }
+  .firm-card-name { font-size: 13px; font-weight: 600; color: #e2e8f0; margin-bottom: 4px; }
+  .firm-card-sub { font-size: 11px; color: #475569; }
+  .firm-card-badge { display: inline-block; margin-bottom: 8px; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+  .drop-zone { border: 2px dashed #1e2330; border-radius: 10px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all .15s; background: #0c0e14; }
+  .drop-zone:hover, .drop-zone.drag-over { border-color: #3b82f6; background: #0f1829; }
+  .drop-zone input { display: none; }
+  .drop-zone-title { font-size: 14px; font-weight: 500; color: #e2e8f0; margin-bottom: 6px; }
+  .drop-zone-sub { font-size: 12px; color: #475569; }
+  .import-preview { background: #0c0e14; border: 1px solid #1e2330; border-radius: 8px; padding: 16px; margin-top: 16px; }
+  .import-preview-title { font-size: 12px; font-weight: 500; color: #94a3b8; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  .import-stat { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid #1e2330; font-size: 13px; }
+  .import-stat:last-child { border-bottom: none; }
+  .import-stat-label { color: #475569; }
+  .import-stat-val { font-weight: 500; color: #e2e8f0; }
+  .step-indicator { display: flex; gap: 8px; align-items: center; margin-bottom: 24px; }
+  .step { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #475569; }
+  .step.active { color: #3b82f6; }
+  .step.done { color: #22c55e; }
+  .step-num { width: 20px; height: 20px; border-radius: 50%; background: #1e2330; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; }
+  .step.active .step-num { background: #1d4ed8; color: #fff; }
+  .step.done .step-num { background: #14532d; color: #4ade80; }
+  .step-divider { flex: 1; height: 1px; background: #1e2330; }
+  .how-to-box { background: #0c0e14; border: 1px solid #1e2330; border-radius: 8px; padding: 14px; margin-bottom: 16px; }
+  .how-to-title { font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 8px; }
+  .how-to-step { font-size: 12px; color: #475569; padding: 3px 0; display: flex; gap: 8px; }
+  .import-result { background: #0c0e14; border: 1px solid #22c55e; border-radius: 8px; padding: 20px; text-align: center; margin-top: 16px; }
+  .import-result-title { font-size: 15px; font-weight: 600; color: #e2e8f0; margin-bottom: 6px; }
+  .import-result-sub { font-size: 13px; color: #475569; line-height: 1.6; }
+  .import-name-row { display: flex; flex-direction: column; gap: 5px; margin-top: 14px; }
+  .import-name-row label { font-size: 11px; color: #475569; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
+  .import-name-row input { background: #0c0e14; border: 1px solid #1e2330; color: #e2e8f0; padding: 9px 11px; border-radius: 7px; font-size: 13px; outline: none; }
+  .import-name-row input:focus { border-color: #3b82f6; }
 
   @media (max-width: 768px) {
     .kpi-grid { grid-template-columns: repeat(2, 1fr); }
     .chart-row { grid-template-columns: 1fr; }
     .pipeline-grid { grid-template-columns: repeat(2, 1fr); }
+    .import-grid { grid-template-columns: 1fr 1fr; }
     .topbar { padding: 0 14px; }
     .main { padding: 14px; }
   }
@@ -134,11 +154,10 @@
 </head>
 <body>
 
-<!-- ══ AUTH SCREEN ══ -->
 <div id="auth-screen">
   <div class="auth-box">
     <div class="auth-logo">Prop Firm Tracker</div>
-    <div class="auth-sub">Track challenges, payouts &amp; ROI across all your firms</div>
+    <div class="auth-sub">Track challenges, payouts & ROI across all your firms</div>
     <div class="auth-tabs">
       <button class="auth-tab active" onclick="setAuthTab('signin')">Sign in</button>
       <button class="auth-tab" onclick="setAuthTab('signup')">Sign up</button>
@@ -150,7 +169,6 @@
   </div>
 </div>
 
-<!-- ══ APP SCREEN ══ -->
 <div id="app-screen">
   <div class="topbar">
     <div class="app-name">Prop Firm Tracker</div>
@@ -158,6 +176,7 @@
     <div class="tab" onclick="switchTab('pipeline')">Pipeline</div>
     <div class="tab" onclick="switchTab('payouts')">Payouts</div>
     <div class="tab" onclick="switchTab('firms')">Firms</div>
+    <div class="tab" onclick="switchTab('import')" style="color:#818cf8">Import CSV</div>
     <div class="spacer"></div>
     <div class="user-pill" id="user-email"></div>
     <button class="signout-btn" onclick="signOut()">Sign out</button>
@@ -165,7 +184,6 @@
 
   <div class="main">
 
-    <!-- Dashboard -->
     <div id="view-dashboard" class="view active">
       <div class="kpi-grid" id="kpi-grid">
         <div class="kpi"><div class="kpi-label">Net ROI</div><div class="kpi-value muted">—</div></div>
@@ -174,80 +192,119 @@
         <div class="kpi"><div class="kpi-label">Avg consistency</div><div class="kpi-value muted">—</div></div>
       </div>
       <div class="chart-row">
-        <div class="chart-card">
-          <div class="chart-title">Net profit — last 6 months</div>
-          <div style="position:relative;height:190px"><canvas id="chart-profit"></canvas></div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-title">Payout vs fees by firm</div>
-          <div style="position:relative;height:190px"><canvas id="chart-firms"></canvas></div>
-        </div>
+        <div class="chart-card"><div class="chart-title">Net profit — last 6 months</div><div style="position:relative;height:190px"><canvas id="chart-profit"></canvas></div></div>
+        <div class="chart-card"><div class="chart-title">Payout vs fees by firm</div><div style="position:relative;height:190px"><canvas id="chart-firms"></canvas></div></div>
       </div>
-      <div class="chart-card full">
-        <div class="chart-title">Consistency score by month</div>
-        <div style="position:relative;height:130px"><canvas id="chart-cons"></canvas></div>
-      </div>
+      <div class="chart-card" style="margin-bottom:14px"><div class="chart-title">Consistency score by month</div><div style="position:relative;height:130px"><canvas id="chart-cons"></canvas></div></div>
     </div>
 
-    <!-- Pipeline -->
     <div id="view-pipeline" class="view">
-      <div class="section-hdr">
-        <div class="section-title">Account pipeline</div>
-        <button class="btn btn-primary btn-sm" onclick="openModal('account')">+ Add account</button>
-      </div>
+      <div class="section-hdr"><div class="section-title">Account pipeline</div><button class="btn btn-primary btn-sm" onclick="openModal('account')">+ Add account</button></div>
       <div class="pipeline-grid" id="pipeline-grid"></div>
     </div>
 
-    <!-- Payouts -->
     <div id="view-payouts" class="view">
-      <div class="section-hdr">
-        <div class="section-title">Payout history</div>
-        <button class="btn btn-primary btn-sm" onclick="openModal('payout')">+ Log payout</button>
-      </div>
-      <div class="table-card">
-        <table>
-          <thead><tr><th>Date</th><th>Firm</th><th>Account</th><th>Amount</th><th>Type</th><th>Note</th><th></th></tr></thead>
-          <tbody id="payout-tbody"><tr><td colspan="7" class="empty">No payouts yet</td></tr></tbody>
-        </table>
-      </div>
+      <div class="section-hdr"><div class="section-title">Payout history</div><button class="btn btn-primary btn-sm" onclick="openModal('payout')">+ Log payout</button></div>
+      <div class="table-card"><table><thead><tr><th>Date</th><th>Firm</th><th>Account</th><th>Amount</th><th>Type</th><th>Note</th><th></th></tr></thead><tbody id="payout-tbody"><tr><td colspan="7" class="empty">No payouts yet</td></tr></tbody></table></div>
     </div>
 
-    <!-- Firms -->
     <div id="view-firms" class="view">
+      <div class="section-hdr"><div class="section-title">Firm comparison</div></div>
+      <div class="table-card"><table><thead><tr><th>Firm</th><th>Accounts</th><th>Pass rate</th><th>Total fees</th><th>Total payouts</th><th>Net ROI</th><th>Avg consistency</th></tr></thead><tbody id="firm-tbody"><tr><td colspan="7" class="empty">No data yet</td></tr></tbody></table></div>
+    </div>
+
+    <!-- CSV IMPORT VIEW -->
+    <div id="view-import" class="view">
       <div class="section-hdr">
-        <div class="section-title">Firm comparison</div>
+        <div class="section-title">Import CSV</div>
+        <div style="font-size:12px;color:#475569">Auto-detects Topstep, Tradeify, Lucid & more</div>
       </div>
-      <div class="table-card">
-        <table>
-          <thead><tr><th>Firm</th><th>Accounts</th><th>Pass rate</th><th>Total fees</th><th>Total payouts</th><th>Net ROI</th><th>Avg consistency</th></tr></thead>
-          <tbody id="firm-tbody"><tr><td colspan="7" class="empty">No data yet</td></tr></tbody>
-        </table>
+
+      <div class="step-indicator">
+        <div class="step active" id="step1-ind"><div class="step-num">1</div>&nbsp;Choose firm</div>
+        <div class="step-divider"></div>
+        <div class="step" id="step2-ind"><div class="step-num">2</div>&nbsp;Upload file</div>
+        <div class="step-divider"></div>
+        <div class="step" id="step3-ind"><div class="step-num">3</div>&nbsp;Review & import</div>
+      </div>
+
+      <div id="import-step1">
+        <div class="import-grid">
+          <div class="firm-card" onclick="selectFirm('topstep',this)">
+            <div class="firm-card-badge badge badge-blue">TopstepX</div>
+            <div class="firm-card-name">Topstep</div>
+            <div class="firm-card-sub">Trades tab → Export</div>
+          </div>
+          <div class="firm-card" onclick="selectFirm('tradeify',this)">
+            <div class="firm-card-badge badge badge-purple">ProjectX</div>
+            <div class="firm-card-name">Tradeify</div>
+            <div class="firm-card-sub">Account → Trade History → Export</div>
+          </div>
+          <div class="firm-card" onclick="selectFirm('lucid',this)">
+            <div class="firm-card-badge badge badge-purple">ProjectX</div>
+            <div class="firm-card-name">Lucid</div>
+            <div class="firm-card-sub">Account → Trade History → Export</div>
+          </div>
+          <div class="firm-card" onclick="selectFirm('tradovate',this)">
+            <div class="firm-card-badge badge badge-gray">Tradovate</div>
+            <div class="firm-card-name">Tradovate</div>
+            <div class="firm-card-sub">Account Reports → Orders → Download</div>
+          </div>
+          <div class="firm-card" onclick="selectFirm('rithmic',this)">
+            <div class="firm-card-badge badge badge-gray">R Trader</div>
+            <div class="firm-card-name">Rithmic</div>
+            <div class="firm-card-sub">Completed Orders → clipboard icon</div>
+          </div>
+          <div class="firm-card" onclick="selectFirm('generic',this)">
+            <div class="firm-card-badge badge badge-gray">Any</div>
+            <div class="firm-card-name">Other</div>
+            <div class="firm-card-sub">Any CSV with date & P&L</div>
+          </div>
+        </div>
+        <div class="how-to-box" id="how-to-box" style="display:none"></div>
+      </div>
+
+      <div id="import-step2" style="display:none">
+        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('csv-file-input').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+          <input type="file" id="csv-file-input" accept=".csv,.txt" onchange="handleFileSelect(event)" />
+          <div class="drop-zone-title">Drop your CSV here or click to browse</div>
+          <div class="drop-zone-sub" id="drop-zone-sub">Supports .csv files from all major platforms</div>
+        </div>
+        <div style="margin-top:14px"><button class="btn" onclick="goToStep(1)">← Back</button></div>
+      </div>
+
+      <div id="import-step3" style="display:none">
+        <div class="import-preview" id="import-preview"></div>
+        <div class="import-name-row">
+          <label>Account / firm name for this import</label>
+          <input id="import-acct-name" placeholder="e.g. Topstep $50K Funded" />
+        </div>
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button class="btn" onclick="goToStep(2)">← Back</button>
+          <button class="btn btn-primary" onclick="confirmImport()" id="confirm-import-btn">Import data</button>
+        </div>
+        <div class="import-result" id="import-result" style="display:none"></div>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ══ MODALS ══ -->
+<!-- MODALS -->
 <div class="overlay" id="modal-account" onclick="if(event.target===this)closeModal('account')">
   <div class="modal">
     <div class="modal-title">Add account</div>
     <div class="form-grid">
-      <div class="form-group"><label>Firm name</label><input id="af-firm" placeholder="e.g. Apex Trader" /></div>
+      <div class="form-group"><label>Firm name</label><input id="af-firm" placeholder="e.g. Topstep" /></div>
       <div class="form-group"><label>Account ID</label><input id="af-id" placeholder="e.g. ACC-001" /></div>
-      <div class="form-group"><label>Stage</label>
-        <select id="af-stage"><option>Challenge</option><option>Funded</option><option>Blown</option><option>Withdrawn</option></select>
-      </div>
+      <div class="form-group"><label>Stage</label><select id="af-stage"><option>Challenge</option><option>Funded</option><option>Blown</option><option>Withdrawn</option></select></div>
       <div class="form-group"><label>Account size ($)</label><input type="number" id="af-size" placeholder="50000" /></div>
       <div class="form-group"><label>Challenge fee ($)</label><input type="number" id="af-fee" placeholder="150" /></div>
       <div class="form-group"><label>Max drawdown (%)</label><input type="number" id="af-dd" placeholder="6" /></div>
       <div class="form-group"><label>Start date</label><input type="date" id="af-date" /></div>
       <div class="form-group"><label>Consistency score (%)</label><input type="number" id="af-cons" placeholder="85" /></div>
     </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('account')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveAccount()">Save account</button>
-    </div>
+    <div class="modal-footer"><button class="btn" onclick="closeModal('account')">Cancel</button><button class="btn btn-primary" onclick="saveAccount()">Save account</button></div>
   </div>
 </div>
 
@@ -255,322 +312,185 @@
   <div class="modal">
     <div class="modal-title">Log payout</div>
     <div class="form-grid">
-      <div class="form-group"><label>Firm</label><input id="pp-firm" placeholder="e.g. Apex Trader" /></div>
+      <div class="form-group"><label>Firm</label><input id="pp-firm" placeholder="e.g. Topstep" /></div>
       <div class="form-group"><label>Account ID</label><input id="pp-acct" placeholder="e.g. ACC-001" /></div>
       <div class="form-group"><label>Amount ($)</label><input type="number" id="pp-amount" placeholder="1200" /></div>
       <div class="form-group"><label>Date</label><input type="date" id="pp-date" /></div>
-      <div class="form-group"><label>Type</label>
-        <select id="pp-type"><option>Payout</option><option>Refund</option><option>Bonus</option></select>
-      </div>
+      <div class="form-group"><label>Type</label><select id="pp-type"><option>Payout</option><option>Refund</option><option>Bonus</option></select></div>
       <div class="form-group"><label>Note (optional)</label><input id="pp-note" placeholder="" /></div>
     </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('payout')">Cancel</button>
-      <button class="btn btn-primary" onclick="savePayout()">Log payout</button>
-    </div>
+    <div class="modal-footer"><button class="btn" onclick="closeModal('payout')">Cancel</button><button class="btn btn-primary" onclick="savePayout()">Log payout</button></div>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════
-//  CONFIGURATION — paste your Supabase keys here
-// ══════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://ijnuzekbqlynslbmtylx.supabase.co'
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbnV6ZWticWx5bnNsYm10eWx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUxMzMxMzIsImV4cCI6MjA5MDcwOTEzMn0.Y6OQStAmeGYJeSqe6GiremTif9uIT4BirMPWsj3_WCk'
-
+const SUPABASE_URL = 'YOUR_SUPABASE_URL'
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-// ── STATE ────────────────────────────────────────────
-let accounts = []
-let payouts = []
-let currentUser = null
-let chartProfit = null, chartFirms = null, chartCons = null
+let accounts=[], payouts=[], currentUser=null
+let chartProfit=null, chartFirms=null, chartCons=null
 
-// ── AUTH ─────────────────────────────────────────────
-let authMode = 'signin'
-function setAuthTab(mode) {
-  authMode = mode
-  document.querySelectorAll('.auth-tab').forEach((t, i) => t.classList.toggle('active', (i === 0) === (mode === 'signin')))
-  document.querySelector('.auth-btn').textContent = mode === 'signin' ? 'Sign in' : 'Create account'
-  setMsg('', '')
+// AUTH
+let authMode='signin'
+function setAuthTab(mode){authMode=mode;document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',(i===0)===(mode==='signin')));document.querySelector('.auth-btn').textContent=mode==='signin'?'Sign in':'Create account';setMsg('','')}
+function setMsg(t,type){const el=document.getElementById('auth-msg');el.textContent=t;el.className='auth-msg'+(type?' '+type:'')}
+async function handleAuth(){const email=document.getElementById('auth-email').value.trim(),password=document.getElementById('auth-password').value;if(!email||!password)return setMsg('Please enter email and password.','error');setMsg('Please wait…','');const fn=authMode==='signin'?sb.auth.signInWithPassword({email,password}):sb.auth.signUp({email,password});const{data,error}=await fn;if(error)return setMsg(error.message,'error');if(authMode==='signup'&&!data.session)return setMsg('Check your email to confirm your account.','success');if(data.session)bootApp(data.session.user)}
+async function signOut(){await sb.auth.signOut();currentUser=null;accounts=[];payouts=[];document.getElementById('app-screen').style.display='none';document.getElementById('auth-screen').style.display='flex'}
+function bootApp(user){currentUser=user;document.getElementById('auth-screen').style.display='none';document.getElementById('app-screen').style.display='flex';document.getElementById('user-email').textContent=user.email;document.getElementById('af-date').value=today();document.getElementById('pp-date').value=today();loadData()}
+
+// DATA
+async function loadData(){const[{data:a},{data:p}]=await Promise.all([sb.from('accounts').select('*').order('created_at',{ascending:false}),sb.from('payouts').select('*').order('date',{ascending:false})]);accounts=a||[];payouts=p||[];renderAll()}
+async function saveAccount(){const row={user_id:currentUser.id,firm:val('af-firm')||'Unknown',account_id:val('af-id')||'ACC-'+Date.now(),stage:val('af-stage'),size:num('af-size'),fee:num('af-fee'),max_dd:num('af-dd')||6,start_date:val('af-date'),consistency:num('af-cons')};const{error}=await sb.from('accounts').insert(row);if(error)return alert(error.message);closeModal('account');clearFields(['af-firm','af-id','af-size','af-fee','af-dd','af-cons']);await loadData()}
+async function savePayout(){const row={user_id:currentUser.id,firm:val('pp-firm')||'Unknown',account_ref:val('pp-acct'),amount:num('pp-amount'),date:val('pp-date'),type:val('pp-type'),note:val('pp-note')};const{error}=await sb.from('payouts').insert(row);if(error)return alert(error.message);closeModal('payout');clearFields(['pp-firm','pp-acct','pp-amount','pp-note']);await loadData()}
+async function deleteAccount(id){if(!confirm('Delete?'))return;await sb.from('accounts').delete().eq('id',id);await loadData()}
+async function deletePayout(id){if(!confirm('Delete?'))return;await sb.from('payouts').delete().eq('id',id);await loadData()}
+
+// HELPERS
+function fmt$(n){return(n<0?'-':'')+'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0})}
+function pct(n){return Math.round(n)+'%'}
+function today(){return new Date().toISOString().slice(0,10)}
+function val(id){return document.getElementById(id).value.trim()}
+function num(id){return parseFloat(document.getElementById(id).value)||0}
+function clearFields(ids){ids.forEach(id=>document.getElementById(id).value='')}
+const SC={Challenge:'#f59e0b',Funded:'#22c55e',Blown:'#ef4444',Withdrawn:'#64748b'}
+
+// RENDER
+function renderAll(){renderDashboard();renderPipeline();renderPayouts();renderFirms()}
+function renderDashboard(){
+  const tp=payouts.reduce((s,p)=>s+p.amount,0),tf=accounts.reduce((s,a)=>s+a.fee,0),net=tp-tf
+  const ps=accounts.filter(a=>a.stage==='Funded'||a.stage==='Withdrawn').length,bl=accounts.filter(a=>a.stage==='Blown').length,at=ps+bl
+  const pr=at?Math.round(ps/at*100):0,ac=accounts.length?Math.round(accounts.reduce((s,a)=>s+(a.consistency||0),0)/accounts.length):0
+  document.getElementById('kpi-grid').innerHTML=`<div class="kpi"><div class="kpi-label">Net ROI</div><div class="kpi-value ${net>=0?'green':'red'}">${fmt$(net)}</div><div class="kpi-sub">${fmt$(tp)} payouts · ${fmt$(tf)} fees</div></div><div class="kpi"><div class="kpi-label">Total payouts</div><div class="kpi-value green">${fmt$(tp)}</div><div class="kpi-sub">${payouts.length} logged</div></div><div class="kpi"><div class="kpi-label">Pass rate</div><div class="kpi-value blue">${pct(pr)}</div><div class="kpi-sub">${ps} passed · ${bl} blown</div></div><div class="kpi"><div class="kpi-label">Avg consistency</div><div class="kpi-value indigo">${pct(ac)}</div><div class="kpi-sub">${accounts.filter(a=>a.stage==='Funded').length} funded</div></div>`
+  const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],now=new Date(),lb=[],nd=[]
+  for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);lb.push(mo[d.getMonth()]+"'"+(d.getFullYear()+'').slice(2));const mp=payouts.filter(p=>{const pd=new Date(p.date);return pd.getMonth()===d.getMonth()&&pd.getFullYear()===d.getFullYear()}).reduce((s,p)=>s+p.amount,0);const mf=accounts.filter(a=>{const ad=new Date(a.start_date);return ad.getMonth()===d.getMonth()&&ad.getFullYear()===d.getFullYear()}).reduce((s,a)=>s+a.fee,0);nd.push(mp-mf)}
+  if(chartProfit)chartProfit.destroy();chartProfit=new Chart(document.getElementById('chart-profit').getContext('2d'),{type:'line',data:{labels:lb,datasets:[{data:nd,borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,.07)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#22c55e',fill:true,tension:.35}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>fmt$(v.raw)}}},scales:{x:{ticks:{color:'#475569',font:{size:11}},grid:{color:'#1a1f2e'}},y:{ticks:{color:'#475569',font:{size:11},callback:v=>fmt$(v)},grid:{color:'#1a1f2e'}}}}})
+  const fn=[...new Set(accounts.map(a=>a.firm).concat(payouts.map(p=>p.firm)))].filter(Boolean)
+  if(chartFirms)chartFirms.destroy();chartFirms=new Chart(document.getElementById('chart-firms').getContext('2d'),{type:'bar',data:{labels:fn.length?fn:['No firms'],datasets:[{label:'Payouts',data:fn.map(f=>payouts.filter(p=>p.firm===f).reduce((s,p)=>s+p.amount,0)),backgroundColor:'#22c55e',borderRadius:4},{label:'Fees',data:fn.map(f=>accounts.filter(a=>a.firm===f).reduce((s,a)=>s+a.fee,0)),backgroundColor:'#ef4444',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.dataset.label+': '+fmt$(v.raw)}}},scales:{x:{ticks:{color:'#475569',font:{size:11}},grid:{display:false}},y:{ticks:{color:'#475569',font:{size:11},callback:v=>fmt$(v)},grid:{color:'#1a1f2e'}}}}})
+  if(chartCons)chartCons.destroy();chartCons=new Chart(document.getElementById('chart-cons').getContext('2d'),{type:'bar',data:{labels:lb,datasets:[{data:Array(6).fill(ac||0),backgroundColor:'#818cf8',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.raw+'%'}}},scales:{x:{ticks:{color:'#475569',font:{size:11}},grid:{display:false}},y:{min:0,max:100,ticks:{color:'#475569',font:{size:11},callback:v=>v+'%'},grid:{color:'#1a1f2e'}}}}})
+}
+function renderPipeline(){const st=['Challenge','Funded','Blown','Withdrawn'],lb={Challenge:'In challenge',Funded:'Funded',Blown:'Blown',Withdrawn:'Withdrawn'};document.getElementById('pipeline-grid').innerHTML=st.map(s=>{const it=accounts.filter(a=>a.stage===s);return`<div class="stage-col"><div class="stage-header"><div class="stage-dot" style="background:${SC[s]}"></div>${lb[s]}<div class="stage-count">${it.length}</div></div>${it.length===0?'<div class="empty">Empty</div>':it.map(a=>`<div class="acct-card"><div class="acct-firm">${a.firm}</div><div class="acct-id">${a.account_id}</div><div class="acct-meta">${a.size?'$'+Number(a.size).toLocaleString():''} ${a.fee?'· $'+a.fee+' fee':''}</div>${a.consistency?`<div class="cons-bar-bg"><div class="cons-bar" style="width:${Math.min(a.consistency,100)}%"></div></div><div class="cons-label">${Math.round(a.consistency)}%</div>`:''}</div>`).join('')}</div>`}).join('')}
+function renderPayouts(){const so=[...payouts].sort((a,b)=>b.date.localeCompare(a.date));document.getElementById('payout-tbody').innerHTML=so.length===0?'<tr><td colspan="7" class="empty">No payouts yet</td></tr>':so.map(p=>`<tr><td class="muted">${p.date}</td><td>${p.firm}</td><td class="muted">${p.account_ref||'—'}</td><td class="green" style="font-weight:500">${fmt$(p.amount)}</td><td><span class="badge badge-blue">${p.type}</span></td><td class="muted">${p.note||'—'}</td><td><button class="btn btn-sm" style="color:#475569;padding:3px 8px" onclick="deletePayout('${p.id}')">✕</button></td></tr>`).join('')}
+function renderFirms(){const fn=[...new Set(accounts.map(a=>a.firm).concat(payouts.map(p=>p.firm)))].filter(Boolean);document.getElementById('firm-tbody').innerHTML=fn.length===0?'<tr><td colspan="7" class="empty">No firms yet</td></tr>':fn.map(f=>{const fa=accounts.filter(a=>a.firm===f),fp=payouts.filter(p=>p.firm===f),fees=fa.reduce((s,a)=>s+a.fee,0),tp=fp.reduce((s,p)=>s+p.amount,0),net=tp-fees,ps=fa.filter(a=>a.stage==='Funded'||a.stage==='Withdrawn').length,bl=fa.filter(a=>a.stage==='Blown').length,at=ps+bl,pr=at?Math.round(ps/at*100):null,ac=fa.length?Math.round(fa.reduce((s,a)=>s+(a.consistency||0),0)/fa.length):null;return`<tr><td style="font-weight:500;color:#e2e8f0">${f}</td><td>${fa.length}</td><td class="blue">${pr!==null?pct(pr):'—'}</td><td class="red">${fmt$(fees)}</td><td class="green">${fmt$(tp)}</td><td class="${net>=0?'green':'red'}" style="font-weight:500">${fmt$(net)}</td><td class="indigo">${ac!==null?pct(ac):'—'}</td></tr>`}).join('')}
+
+// NAV
+function switchTab(name){document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['dashboard','pipeline','payouts','firms','import'][i]===name));document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById('view-'+name).classList.add('active');if(name==='dashboard')renderDashboard()}
+function openModal(name){document.getElementById('modal-'+name).classList.add('open')}
+function closeModal(name){document.getElementById('modal-'+name).classList.remove('open')}
+
+// ══ CSV IMPORT ══
+let selectedFirm=null, parsedImportData=null
+
+const HOW_TO={
+  topstep:['Log into <b>TopstepX</b> at topstep.com','Click the <b>Trades</b> tab at the bottom','Click <b>Export</b> at bottom right, pick your date range','Upload the downloaded CSV below'],
+  tradeify:['Log into your <b>Tradeify</b> dashboard','Open your account and go to <b>Trade History</b>','Click <b>Export CSV</b>','Upload below'],
+  lucid:['Log into your <b>Lucid Trading</b> dashboard','Navigate to <b>Trade History</b>','Click <b>Export CSV</b>','Upload below'],
+  tradovate:['Open <b>Tradovate</b> desktop app','Click account dropdown → gear icon → <b>Account Reports</b>','Go to <b>Orders</b> tab, set date range','Click <b>Download Report</b>'],
+  rithmic:['Open <b>R Trader Pro</b>','Go to <b>Recent Orders</b> or <b>Order History</b>','Right-click headers → Add Qty Filled column','Click clipboard icon to export CSV'],
+  generic:['Export any CSV from your platform','It needs at least a <b>date</b> column and a <b>P&L</b> column','Upload below — format will be auto-detected','']
 }
 
-function setMsg(text, type) {
-  const el = document.getElementById('auth-msg')
-  el.textContent = text
-  el.className = 'auth-msg' + (type ? ' ' + type : '')
+function selectFirm(firm, el){
+  selectedFirm=firm
+  document.querySelectorAll('.firm-card').forEach(c=>c.classList.remove('selected'))
+  el.classList.add('selected')
+  const box=document.getElementById('how-to-box')
+  box.style.display='block'
+  box.innerHTML=`<div class="how-to-title">How to export from ${firm.charAt(0).toUpperCase()+firm.slice(1)}</div>`+HOW_TO[firm].filter(s=>s).map((s,i)=>`<div class="how-to-step"><span style="color:#3b82f6;font-weight:600;min-width:14px">${i+1}.</span><span>${s}</span></div>`).join('')
+  setTimeout(()=>goToStep(2),700)
 }
 
-async function handleAuth() {
-  const email = document.getElementById('auth-email').value.trim()
-  const password = document.getElementById('auth-password').value
-  if (!email || !password) return setMsg('Please enter email and password.', 'error')
-  setMsg('Please wait…', '')
-  const fn = authMode === 'signin'
-    ? sb.auth.signInWithPassword({ email, password })
-    : sb.auth.signUp({ email, password })
-  const { data, error } = await fn
-  if (error) return setMsg(error.message, 'error')
-  if (authMode === 'signup' && !data.session) return setMsg('Check your email to confirm your account.', 'success')
-  if (data.session) bootApp(data.session.user)
+function goToStep(n){
+  document.getElementById('import-step1').style.display=n===1?'block':'none'
+  document.getElementById('import-step2').style.display=n===2?'block':'none'
+  document.getElementById('import-step3').style.display=n===3?'block':'none'
+  ;['step1-ind','step2-ind','step3-ind'].forEach((id,i)=>{const el=document.getElementById(id);el.className='step'+(i+1<n?' done':i+1===n?' active':'')})
+  if(n===1){selectedFirm=null;parsedImportData=null;document.getElementById('import-result').style.display='none';document.querySelectorAll('.firm-card').forEach(c=>c.classList.remove('selected'));document.getElementById('how-to-box').style.display='none'}
 }
 
-async function signOut() {
-  await sb.auth.signOut()
-  currentUser = null
-  accounts = []; payouts = []
-  document.getElementById('app-screen').style.display = 'none'
-  document.getElementById('auth-screen').style.display = 'flex'
-}
+function handleDragOver(e){e.preventDefault();document.getElementById('drop-zone').classList.add('drag-over')}
+function handleDragLeave(){document.getElementById('drop-zone').classList.remove('drag-over')}
+function handleDrop(e){e.preventDefault();document.getElementById('drop-zone').classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)processCSVFile(f)}
+function handleFileSelect(e){const f=e.target.files[0];if(f)processCSVFile(f)}
 
-function bootApp(user) {
-  currentUser = user
-  document.getElementById('auth-screen').style.display = 'none'
-  document.getElementById('app-screen').style.display = 'flex'
-  document.getElementById('user-email').textContent = user.email
-  document.getElementById('af-date').value = today()
-  document.getElementById('pp-date').value = today()
-  loadData()
-}
-
-// ── DATA ─────────────────────────────────────────────
-async function loadData() {
-  const [{ data: a }, { data: p }] = await Promise.all([
-    sb.from('accounts').select('*').order('created_at', { ascending: false }),
-    sb.from('payouts').select('*').order('date', { ascending: false })
-  ])
-  accounts = a || []
-  payouts = p || []
-  renderAll()
-}
-
-async function saveAccount() {
-  const row = {
-    user_id: currentUser.id,
-    firm: val('af-firm') || 'Unknown',
-    account_id: val('af-id') || 'ACC-' + Date.now(),
-    stage: val('af-stage'),
-    size: num('af-size'),
-    fee: num('af-fee'),
-    max_dd: num('af-dd') || 6,
-    start_date: val('af-date'),
-    consistency: num('af-cons')
+function processCSVFile(file){
+  document.getElementById('drop-zone-sub').textContent='Reading '+file.name+'...'
+  const reader=new FileReader()
+  reader.onload=e=>{
+    try{
+      const result=parseCSV(e.target.result,selectedFirm)
+      if(!result||result.trades.length===0){document.getElementById('drop-zone-sub').textContent='No trades found. Check the file format or try Generic.';return}
+      parsedImportData=result
+      parsedImportData.firmName=selectedFirm?selectedFirm.charAt(0).toUpperCase()+selectedFirm.slice(1):'Imported'
+      showPreview(result)
+      goToStep(3)
+    }catch(err){document.getElementById('drop-zone-sub').textContent='Error: '+err.message}
   }
-  const { error } = await sb.from('accounts').insert(row)
-  if (error) return alert(error.message)
-  closeModal('account')
-  clearFields(['af-firm','af-id','af-size','af-fee','af-dd','af-cons'])
-  await loadData()
+  reader.readAsText(file)
 }
 
-async function savePayout() {
-  const row = {
-    user_id: currentUser.id,
-    firm: val('pp-firm') || 'Unknown',
-    account_ref: val('pp-acct'),
-    amount: num('pp-amount'),
-    date: val('pp-date'),
-    type: val('pp-type'),
-    note: val('pp-note')
+function splitCSV(line){const r=[],re=/("(?:[^"]|"")*"|[^,]*)/g;let m;while((m=re.exec(line))!==null){if(m.index===re.lastIndex)re.lastIndex++;r.push(m[1])};return r}
+
+function parseDate(v){if(!v)return null;const s=String(v).trim();let m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);if(m)return`${m[1]}-${m[2]}-${m[3]}`;m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(m)return`${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;const d=new Date(s);if(!isNaN(d.getTime()))return d.toISOString().slice(0,10);return null}
+
+function parseCSV(text,firm){
+  const lines=text.trim().split(/\r?\n/).filter(l=>l.trim())
+  if(lines.length<2)throw new Error('File appears empty')
+  const hdrs=splitCSV(lines[0]).map(h=>h.trim().toLowerCase().replace(/"/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,''))
+  const trades=[]
+  for(let i=1;i<lines.length;i++){
+    const cols=splitCSV(lines[i])
+    if(cols.length<2)continue
+    const row={}
+    hdrs.forEach((h,idx)=>row[h]=(cols[idx]||'').trim().replace(/^"|"$/g,''))
+    // find date
+    const dateKeys=['close_time','open_time','time','date','timestamp','closed_at','datetime','fill_time','complete_time','sell_fill_time','buy_fill_time']
+    let dateVal=null
+    for(const k of dateKeys){if(row[k]){dateVal=parseDate(row[k]);if(dateVal)break}}
+    if(!dateVal){const dk=Object.keys(row).find(k=>k.includes('date')||k.includes('time'));if(dk)dateVal=parseDate(row[dk])}
+    // find pnl
+    const pnlKeys=['pnl','net_pnl','profit_loss','profit___loss','realized_pnl','p_l','realized_p_l','gain_loss','profit','net_profit','close_pnl','trade_pnl']
+    let pnlVal=null
+    for(const k of pnlKeys){if(row[k]!==undefined&&row[k]!==''){const v=parseFloat(row[k].replace(/[$,]/g,''));if(!isNaN(v)){pnlVal=v;break}}}
+    if(pnlVal===null){const pk=Object.keys(row).find(k=>k.includes('pnl')||k.includes('profit')||k.includes('gain')||k.includes('p_l'));if(pk){const v=parseFloat((row[pk]||'').replace(/[$,]/g,''));if(!isNaN(v))pnlVal=v}}
+    if(dateVal&&pnlVal!==null)trades.push({date:dateVal,pnl:pnlVal})
   }
-  const { error } = await sb.from('payouts').insert(row)
-  if (error) return alert(error.message)
-  closeModal('payout')
-  clearFields(['pp-firm','pp-acct','pp-amount','pp-note'])
-  await loadData()
+  const byDate={}
+  trades.forEach(t=>{if(!byDate[t.date])byDate[t.date]={date:t.date,pnl:0,trades:0};byDate[t.date].pnl+=t.pnl;byDate[t.date].trades++})
+  const daily=Object.values(byDate).sort((a,b)=>a.date.localeCompare(b.date))
+  const totalPnl=daily.reduce((s,d)=>s+d.pnl,0)
+  const profitDays=daily.filter(d=>d.pnl>0).length
+  const lossDays=daily.filter(d=>d.pnl<0).length
+  const consistency=daily.length?Math.round(profitDays/daily.length*100):0
+  return{trades,daily,totalPnl,profitDays,lossDays,consistency,tradeCount:trades.length,dayCount:daily.length}
 }
 
-async function deleteAccount(id) {
-  if (!confirm('Delete this account?')) return
-  await sb.from('accounts').delete().eq('id', id)
-  await loadData()
+function showPreview(r){
+  document.getElementById('import-preview').innerHTML=`<div class="import-preview-title">Import preview</div><div class="import-stat"><span class="import-stat-label">Trades found</span><span class="import-stat-val">${r.tradeCount}</span></div><div class="import-stat"><span class="import-stat-label">Trading days</span><span class="import-stat-val">${r.dayCount}</span></div><div class="import-stat"><span class="import-stat-label">Total net P&L</span><span class="import-stat-val ${r.totalPnl>=0?'green':'red'}">${fmt$(r.totalPnl)}</span></div><div class="import-stat"><span class="import-stat-label">Profit days</span><span class="import-stat-val green">${r.profitDays}</span></div><div class="import-stat"><span class="import-stat-label">Loss days</span><span class="import-stat-val red">${r.lossDays}</span></div><div class="import-stat"><span class="import-stat-label">Consistency score</span><span class="import-stat-val indigo">${r.consistency}%</span></div><div class="import-stat"><span class="import-stat-label">Date range</span><span class="import-stat-val">${r.daily[0]?.date||'—'} → ${r.daily[r.daily.length-1]?.date||'—'}</span></div>`
+  document.getElementById('import-acct-name').value=parsedImportData.firmName
 }
 
-async function deletePayout(id) {
-  if (!confirm('Delete this payout?')) return
-  await sb.from('payouts').delete().eq('id', id)
-  await loadData()
+async function confirmImport(){
+  if(!parsedImportData)return
+  const btn=document.getElementById('confirm-import-btn')
+  btn.textContent='Importing...';btn.disabled=true
+  const acctName=document.getElementById('import-acct-name').value.trim()||parsedImportData.firmName
+  const firmName=selectedFirm?selectedFirm.charAt(0).toUpperCase()+selectedFirm.slice(1):acctName
+  try{
+    const lastDate=parsedImportData.daily[parsedImportData.daily.length-1]?.date||today()
+    if(parsedImportData.totalPnl!==0){
+      await sb.from('payouts').insert({user_id:currentUser.id,firm:firmName,account_ref:acctName,amount:Math.round(parsedImportData.totalPnl*100)/100,date:lastDate,type:'Import',note:`CSV import: ${parsedImportData.tradeCount} trades across ${parsedImportData.dayCount} days`})
+    }
+    await sb.from('accounts').insert({user_id:currentUser.id,firm:firmName,account_id:acctName,stage:'Funded',size:0,fee:0,max_dd:6,start_date:parsedImportData.daily[0]?.date||today(),consistency:parsedImportData.consistency})
+    await loadData()
+    document.getElementById('import-result').style.display='block'
+    document.getElementById('import-result').innerHTML=`<div class="import-result-title">✅ Import complete</div><div class="import-result-sub">${parsedImportData.tradeCount} trades · ${parsedImportData.dayCount} days · ${parsedImportData.consistency}% consistency<br>Head to the Dashboard to see your updated stats.</div>`
+    btn.textContent='Import data';btn.disabled=false
+  }catch(err){alert('Import failed: '+err.message);btn.textContent='Import data';btn.disabled=false}
 }
 
-// ── RENDER ────────────────────────────────────────────
-function renderAll() {
-  renderDashboard()
-  renderPipeline()
-  renderPayouts()
-  renderFirms()
-}
-
-function fmt$(n) {
-  const abs = Math.abs(n)
-  return (n < 0 ? '-' : '') + '$' + abs.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
-}
-function pct(n) { return Math.round(n) + '%' }
-function today() { return new Date().toISOString().slice(0, 10) }
-function val(id) { return document.getElementById(id).value.trim() }
-function num(id) { return parseFloat(document.getElementById(id).value) || 0 }
-function clearFields(ids) { ids.forEach(id => document.getElementById(id).value = '') }
-
-const STAGE_COLOR = { Challenge: '#f59e0b', Funded: '#22c55e', Blown: '#ef4444', Withdrawn: '#64748b' }
-const STAGE_BADGE = { Challenge: 'badge-amber', Funded: 'badge-green', Blown: 'badge-red', Withdrawn: 'badge-gray' }
-
-function renderDashboard() {
-  const totalPay = payouts.reduce((s, p) => s + p.amount, 0)
-  const totalFees = accounts.reduce((s, a) => s + a.fee, 0)
-  const net = totalPay - totalFees
-  const passed = accounts.filter(a => a.stage === 'Funded' || a.stage === 'Withdrawn').length
-  const blown = accounts.filter(a => a.stage === 'Blown').length
-  const attempted = passed + blown
-  const passRate = attempted ? Math.round(passed / attempted * 100) : 0
-  const avgCons = accounts.length ? Math.round(accounts.reduce((s, a) => s + (a.consistency || 0), 0) / accounts.length) : 0
-
-  document.getElementById('kpi-grid').innerHTML = `
-    <div class="kpi">
-      <div class="kpi-label">Net ROI</div>
-      <div class="kpi-value ${net >= 0 ? 'green' : 'red'}">${fmt$(net)}</div>
-      <div class="kpi-sub">${fmt$(totalPay)} payouts · ${fmt$(totalFees)} fees</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Total payouts</div>
-      <div class="kpi-value green">${fmt$(totalPay)}</div>
-      <div class="kpi-sub">${payouts.length} payout${payouts.length !== 1 ? 's' : ''} logged</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Pass rate</div>
-      <div class="kpi-value blue">${pct(passRate)}</div>
-      <div class="kpi-sub">${passed} passed · ${blown} blown</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Avg consistency</div>
-      <div class="kpi-value indigo">${pct(avgCons)}</div>
-      <div class="kpi-sub">${accounts.filter(a => a.stage === 'Funded').length} funded active</div>
-    </div>`
-
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  const now = new Date()
-  const labels = [], netData = []
-  for (let i = 5; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
-    labels.push(months[d.getMonth()] + " '" + String(d.getFullYear()).slice(2))
-    const mo = payouts.filter(p => { const pd = new Date(p.date); return pd.getMonth() === d.getMonth() && pd.getFullYear() === d.getFullYear() }).reduce((s, p) => s + p.amount, 0)
-    const fees = accounts.filter(a => { const ad = new Date(a.start_date); return ad.getMonth() === d.getMonth() && ad.getFullYear() === d.getFullYear() }).reduce((s, a) => s + a.fee, 0)
-    netData.push(mo - fees)
-  }
-
-  if (chartProfit) chartProfit.destroy()
-  chartProfit = new Chart(document.getElementById('chart-profit').getContext('2d'), {
-    type: 'line',
-    data: { labels, datasets: [{ data: netData, borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.07)', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#22c55e', fill: true, tension: .35 }] },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: v => fmt$(v.raw) } } }, scales: { x: { ticks: { color: '#475569', font: { size: 11 } }, grid: { color: '#1a1f2e' } }, y: { ticks: { color: '#475569', font: { size: 11 }, callback: v => fmt$(v) }, grid: { color: '#1a1f2e' } } } }
-  })
-
-  const firmNames = [...new Set(accounts.map(a => a.firm).concat(payouts.map(p => p.firm)))].filter(Boolean)
-  if (chartFirms) chartFirms.destroy()
-  chartFirms = new Chart(document.getElementById('chart-firms').getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: firmNames.length ? firmNames : ['No firms'],
-      datasets: [
-        { label: 'Payouts', data: firmNames.map(f => payouts.filter(p => p.firm === f).reduce((s, p) => s + p.amount, 0)), backgroundColor: '#22c55e', borderRadius: 4 },
-        { label: 'Fees', data: firmNames.map(f => accounts.filter(a => a.firm === f).reduce((s, a) => s + a.fee, 0)), backgroundColor: '#ef4444', borderRadius: 4 }
-      ]
-    },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: v => v.dataset.label + ': ' + fmt$(v.raw) } } }, scales: { x: { ticks: { color: '#475569', font: { size: 11 } }, grid: { display: false } }, y: { ticks: { color: '#475569', font: { size: 11 }, callback: v => fmt$(v) }, grid: { color: '#1a1f2e' } } } }
-  })
-
-  const consData = Array(6).fill(avgCons || 0)
-  if (chartCons) chartCons.destroy()
-  chartCons = new Chart(document.getElementById('chart-cons').getContext('2d'), {
-    type: 'bar',
-    data: { labels, datasets: [{ data: consData, backgroundColor: '#818cf8', borderRadius: 4 }] },
-    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: v => v.raw + '%' } } }, scales: { x: { ticks: { color: '#475569', font: { size: 11 } }, grid: { display: false } }, y: { min: 0, max: 100, ticks: { color: '#475569', font: { size: 11 }, callback: v => v + '%' }, grid: { color: '#1a1f2e' } } } }
-  })
-}
-
-function renderPipeline() {
-  const stages = ['Challenge', 'Funded', 'Blown', 'Withdrawn']
-  const labels = { Challenge: 'In challenge', Funded: 'Funded', Blown: 'Blown', Withdrawn: 'Withdrawn' }
-  document.getElementById('pipeline-grid').innerHTML = stages.map(stage => {
-    const items = accounts.filter(a => a.stage === stage)
-    return `<div class="stage-col">
-      <div class="stage-header">
-        <div class="stage-dot" style="background:${STAGE_COLOR[stage]}"></div>
-        ${labels[stage]}
-        <div class="stage-count">${items.length}</div>
-      </div>
-      ${items.length === 0 ? '<div class="empty">Empty</div>' : items.map(a => `
-        <div class="acct-card" onclick="deleteAccount('${a.id}')">
-          <div class="acct-firm">${a.firm}</div>
-          <div class="acct-id">${a.account_id}</div>
-          <div class="acct-meta">${a.size ? '$' + Number(a.size).toLocaleString() : ''} ${a.fee ? '· $' + a.fee + ' fee' : ''}</div>
-          ${a.consistency ? `<div class="cons-bar-bg"><div class="cons-bar" style="width:${Math.min(a.consistency,100)}%"></div></div><div class="cons-label">${Math.round(a.consistency)}% consistency</div>` : ''}
-        </div>`).join('')}
-    </div>`
-  }).join('')
-}
-
-function renderPayouts() {
-  const sorted = [...payouts].sort((a, b) => b.date.localeCompare(a.date))
-  document.getElementById('payout-tbody').innerHTML = sorted.length === 0
-    ? '<tr><td colspan="7" class="empty">No payouts logged yet</td></tr>'
-    : sorted.map(p => `<tr>
-        <td class="muted">${p.date}</td>
-        <td>${p.firm}</td>
-        <td class="muted">${p.account_ref || '—'}</td>
-        <td class="green" style="font-weight:500">${fmt$(p.amount)}</td>
-        <td><span class="badge badge-blue">${p.type}</span></td>
-        <td class="muted">${p.note || '—'}</td>
-        <td><button class="btn btn-sm" style="color:#475569;padding:3px 8px" onclick="deletePayout('${p.id}')">✕</button></td>
-      </tr>`).join('')
-}
-
-function renderFirms() {
-  const firmNames = [...new Set(accounts.map(a => a.firm).concat(payouts.map(p => p.firm)))].filter(Boolean)
-  document.getElementById('firm-tbody').innerHTML = firmNames.length === 0
-    ? '<tr><td colspan="7" class="empty">No firms added yet</td></tr>'
-    : firmNames.map(firm => {
-        const fa = accounts.filter(a => a.firm === firm)
-        const fp = payouts.filter(p => p.firm === firm)
-        const fees = fa.reduce((s, a) => s + a.fee, 0)
-        const totalP = fp.reduce((s, p) => s + p.amount, 0)
-        const net = totalP - fees
-        const passed = fa.filter(a => a.stage === 'Funded' || a.stage === 'Withdrawn').length
-        const blown = fa.filter(a => a.stage === 'Blown').length
-        const att = passed + blown
-        const pr = att ? Math.round(passed / att * 100) : null
-        const ac = fa.length ? Math.round(fa.reduce((s, a) => s + (a.consistency || 0), 0) / fa.length) : null
-        return `<tr>
-          <td style="font-weight:500;color:#e2e8f0">${firm}</td>
-          <td>${fa.length}</td>
-          <td class="blue">${pr !== null ? pct(pr) : '—'}</td>
-          <td class="red">${fmt$(fees)}</td>
-          <td class="green">${fmt$(totalP)}</td>
-          <td class="${net >= 0 ? 'green' : 'red'}" style="font-weight:500">${fmt$(net)}</td>
-          <td class="indigo">${ac !== null ? pct(ac) : '—'}</td>
-        </tr>`
-      }).join('')
-}
-
-// ── NAV ───────────────────────────────────────────────
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', ['dashboard','pipeline','payouts','firms'][i] === name)
-  })
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'))
-  document.getElementById('view-' + name).classList.add('active')
-  if (name === 'dashboard') renderDashboard()
-}
-
-function openModal(name) { document.getElementById('modal-' + name).classList.add('open') }
-function closeModal(name) { document.getElementById('modal-' + name).classList.remove('open') }
-
-// ── INIT ──────────────────────────────────────────────
-sb.auth.getSession().then(({ data: { session } }) => {
-  if (session) bootApp(session.user)
-})
-
-sb.auth.onAuthStateChange((_event, session) => {
-  if (session && !currentUser) bootApp(session.user)
-})
+sb.auth.getSession().then(({data:{session}})=>{if(session)bootApp(session.user)})
+sb.auth.onAuthStateChange((_,session)=>{if(session&&!currentUser)bootApp(session.user)})
 </script>
 </body>
 </html>
